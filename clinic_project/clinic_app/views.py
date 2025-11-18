@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib import messages
+from .models import Appointment, Patient
+from .forms import AppointmentForm
 
 # Create your views here.
 
@@ -40,3 +42,20 @@ def login_view(request):
 def logout_view(request):
     """Logout view - redirect to Django's built-in logout"""
     return redirect('/accounts/logout/')
+
+def patient_create_appointment(request):
+    if request.method == "POST":
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.patient = Patient.objects.get(user=request.user)
+            appointment.save()
+            return redirect('clinic_app:home')
+    else:
+        form = AppointmentForm()
+    
+    context = {
+        'title': 'Create Appointment',
+        'form': form
+    }
+    return render(request, 'clinic_app/patient/create_appointment.html', context)

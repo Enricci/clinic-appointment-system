@@ -36,6 +36,7 @@
 
           <ul class="navbar-menu">
             <li><a href="{% url 'clinic_app:home' %}">Home</a></li>
+            <li><a href="{% url 'clinic_app:patient_create_appointment' %}">Create Appointment</a></li>
             {% if user.is_authenticated %}
             {% else %}
             <li><a href="{% url 'clinic_app:login' %}" class="btn btn-ghost">Login</a></li>
