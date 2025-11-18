@@ -1,0 +1,15 @@
+{% extends "clinic_app/base.html" %}
+{% block title%} Create Appointment {% endblock %}
+{% block content %}
+<div class="create-appointment-container">
+    <h2>Book Appointment</h2>
+
+    <form method ="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Book Appointment</button>
+    </form>
+</div>
+{% endblock %}
