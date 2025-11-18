@@ -1,0 +1,115 @@
+{% extends 'clinic_app/base.html' %} {% block title %}Register - Clinic Appointment System{%endblock%} {% block content %}
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Create Account</h2>
+
+    {% if form.errors %}
+    <div class="alert alert-error">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+      <span>
+        {% if form.non_field_errors %} {{ form.non_field_errors.0 }} {% else %} Please correct the
+        errors below. {% endif %}
+      </span>
+    </div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label class="form-label" for="{{ form.username.id_for_label }}">
+          {{ form.username.label }}
+        </label>
+        <input
+          type="text"
+          name="{{ form.username.name }}"
+          id="{{ form.username.id_for_label }}"
+          placeholder="Choose a username"
+          class="form-control {% if form.username.errors %}error{% endif %}"
+          value="{{ form.username.value|default:'' }}"
+          autofocus
+          required
+        />
+        {% if form.username.errors %}
+        <span class="form-error">{{ form.username.errors.0 }}</span>
+        {% endif %} {% if form.username.help_text %}
+        <small class="text-muted">{{ form.username.help_text }}</small>
+        {% endif %}
+      </div>
+
+      {% if form.email %}
+      <div class="form-group">
+        <label class="form-label" for="{{ form.email.id_for_label }}">
+          {{ form.email.label }}
+        </label>
+        <input
+          type="email"
+          name="{{ form.email.name }}"
+          id="{{ form.email.id_for_label }}"
+          placeholder="Enter your email"
+          class="form-control {% if form.email.errors %}error{% endif %}"
+          value="{{ form.email.value|default:'' }}"
+        />
+        {% if form.email.errors %}
+        <span class="form-error">{{ form.email.errors.0 }}</span>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <div class="form-group">
+        <label class="form-label" for="{{ form.password1.id_for_label }}">
+          {{ form.password1.label }}
+        </label>
+        <input
+          type="password"
+          name="{{ form.password1.name }}"
+          id="{{ form.password1.id_for_label }}"
+          placeholder="Enter your password"
+          class="form-control {% if form.password1.errors %}error{% endif %}"
+          required
+        />
+        {% if form.password1.errors %}
+        <span class="form-error">{{ form.password1.errors.0 }}</span>
+        {% endif %} {% if form.password1.help_text %}
+        <small class="text-muted">{{ form.password1.help_text|safe }}</small>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="{{ form.password2.id_for_label }}">
+          {{ form.password2.label }}
+        </label>
+        <input
+          type="password"
+          name="{{ form.password2.name }}"
+          id="{{ form.password2.id_for_label }}"
+          placeholder="Confirm your password"
+          class="form-control {% if form.password2.errors %}error{% endif %}"
+          required
+        />
+        {% if form.password2.errors %}
+        <span class="form-error">{{ form.password2.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full">Register</button>
+    </form>
+
+    <div class="form-divider">OR</div>
+
+    <div class="text-center">
+      <p class="text-muted">
+        Already have an account?
+        <a href="/accounts/login/" class="link">Login here</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

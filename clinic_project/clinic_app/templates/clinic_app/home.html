@@ -1,5 +1,13 @@
 {% extends 'clinic_app/base.html' %} {% block content %}
-<div class="text-center py-8">
-  <h1 class="text-4xl font-bold">Welcome to Our Clinic</h1>
+<div class="hero">
+  <h1>Welcome to Our Clinic</h1>
+  <p>
+    Your health is our priority. Book an appointment with our experienced medical professionals
+    today.
+  </p>
+  <div class="flex flex-center gap-2" style="margin-top: 2rem">
+    <a href="/register/" class="btn btn-primary">Get Started</a>
+    <a href="/accounts/login/" class="btn btn-secondary">Login</a>
+  </div>
 </div>
 {% endblock %}
