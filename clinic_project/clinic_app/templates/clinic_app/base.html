@@ -40,7 +40,6 @@
             {% if user.is_authenticated %}
             {% else %}
             <li><a href="{% url 'clinic_app:login' %}" class="btn btn-ghost">Login</a></li>
-            <li><a href="{% url 'clinic_app:register' %}" class="btn btn-primary">Register</a></li>
             {% endif %}
           </ul>
         </div>

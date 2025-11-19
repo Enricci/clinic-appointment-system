@@ -1,7 +1,8 @@
-{% extends 'clinic_app/base.html' %} {% block title %}Login - Clinic Appointment System {%endblock%} {% block content %}
+{% extends 'clinic_app/base.html' %} {% block title %}Login - Clinic Appointment System {%endblock%}
+{% block content %}
 <div class="auth-container">
   <div class="auth-card">
-    <h2>Login</h2>
+    <h2 class="uppercase">Doctor Login</h2>
 
     {% if form.errors %}
     <div class="alert alert-error">
@@ -63,15 +64,6 @@
 
       <button type="submit" class="btn btn-primary btn-full">Login</button>
     </form>
-
-    <div class="form-divider">OR</div>
-
-    <div class="text-center">
-      <p class="text-muted">
-        Don't have an account?
-        <a href="{% url 'clinic_app:register' %}" class="link">Register here</a>
-      </p>
-    </div>
   </div>
 </div>
 {% endblock %}
