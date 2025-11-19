@@ -1,0 +1,80 @@
+{% extends "clinic_app/base.html" %} {% block title %}Appointment Details{% endblock %} {% block
+content %}
+<div class="appointment-detail-container">
+  <div class="detail-header">
+    <h1>Appointment Details</h1>
+    <a href="{% url 'clinic_app:doctor_dashboard' %}" class="btn btn-secondary"
+      >Back to Dashboard</a
+    >
+  </div>
+
+  <div class="detail-content">
+    <div class="detail-section">
+      <h2>Patient Information</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Name:</label>
+          <p>{{ appointment.patient.user.get_full_name }}</p>
+        </div>
+        <div class="info-item">
+          <label>Email:</label>
+          <p>{{ appointment.patient.email|default:"N/A" }}</p>
+        </div>
+        <div class="info-item">
+          <label>Phone:</label>
+          <p>{{ appointment.patient.phone_number }}</p>
+        </div>
+        <div class="info-item">
+          <label>Date of Birth:</label>
+          <p>{{ appointment.patient.date_of_birth|date:"F d, Y" }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h2>Appointment Information</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Date:</label>
+          <p>{{ appointment.appointment_date|date:"F d, Y" }}</p>
+        </div>
+        <div class="info-item">
+          <label>Time:</label>
+          <p>{{ appointment.appointment_time|time:"g:i A" }}</p>
+        </div>
+        <div class="info-item">
+          <label>Status:</label>
+          <p>
+            <span class="status-badge status-{{ appointment.status|lower }}">
+              {{ appointment.status }}
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="info-item full-width">
+        <label>Reason for Visit:</label>
+        <p>{{ appointment.reason }}</p>
+      </div>
+    </div>
+
+    <div class="action-section">
+      {% if appointment.status == "Pending" %}
+      <form method="post" action="{% url 'clinic_app:doctor_approve_appointment' appointment.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Approve Appointment</button>
+      </form>
+      {% elif appointment.status == "Approved" %}
+      <form
+        method="post"
+        action="{% url 'clinic_app:doctor_complete_appointment' appointment.id %}"
+      >
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Mark as Completed</button>
+      </form>
+      {% elif appointment.status == "Completed" %}
+      <p class="completed-message">This appointment has been completed.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
