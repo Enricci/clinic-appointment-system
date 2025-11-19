@@ -123,4 +123,8 @@ STATICFILES_DIRS = [BASE_DIR / 'clinic_project' / 'static']
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-STATICFILES_DIRS = [BASE_DIR / 'clinic_project' / 'static']
+
+# Authentication settings
+LOGIN_URL = 'clinic_app:doctor_login'
+LOGIN_REDIRECT_URL = 'clinic_app:doctor_dashboard'
+LOGOUT_REDIRECT_URL = 'clinic_app:doctor_login'
