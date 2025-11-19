@@ -2,6 +2,22 @@ from django import forms
 from .models import Appointment
 
 class AppointmentForm(forms.ModelForm):
+    # Additional patient information fields
+    patient_name = forms.CharField(
+        max_length=200,
+        required=True,
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter patient full name"})
+    )
+    patient_email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": "Enter patient email"})
+    )
+    patient_contact = forms.CharField(
+        max_length=15,
+        required=True,
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter contact number"})
+    )
+    
     class Meta:
         model = Appointment
         fields = ["doctor", "appointment_date", "appointment_time", "reason"]

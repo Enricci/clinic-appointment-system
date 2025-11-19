@@ -1,32 +1,48 @@
 {% extends "clinic_app/base.html" %}
-{% block title%} Create Appointment {% endblock %}
+{% block title %}Create Appointment{% endblock %}
 {% block content %}
 <div class="create-appointment-container">
-    <h2 class="page-title">Book Appointment</h2>
+  <h2 class="page-title">Book Appointment</h2>
 
-    <form method ="POST" class="form-create-appointment">
-        {% csrf_token %}
-        <div>
-            <label class="form-label">{{form.doctor.label}}</label>
-            {{ form.doctor }}
-        </div>    
+  <form method="POST" class="form-create-appointment">
+    {% csrf_token %}
 
-        <div>
-            <label class="form-label">{{form.appointment_date.label}}</label>
-            {{ form.appointment_date }}
-        </div>
+    <div>
+      <label class="form-label">Patient Name</label>
+      {{ form.patient_name }}
+    </div>
 
-        <div>
-            <label class="form-label">{{form.appointment_time.label}}</label>
-            {{ form.appointment_time }}
-        </div>
+    <div>
+      <label class="form-label">Email</label>
+      {{ form.patient_email }}
+    </div>
 
-        <div>
-            <label class="form-label">{{form.reason.label}}</label>
-            {{ form.reason }}
-        </div>
+    <div>
+      <label class="form-label">Contact Number</label>
+      {{ form.patient_contact }}
+    </div>
 
-        <button type="submit" class="btn btn-create-appointment">Book</button>
-    </form>
+    <div>
+      <label class="form-label">{{form.doctor.label}}</label>
+      {{ form.doctor }}
+    </div>
+
+    <div>
+      <label class="form-label">{{form.appointment_date.label}}</label>
+      {{ form.appointment_date }}
+    </div>
+
+    <div>
+      <label class="form-label">{{form.appointment_time.label}}</label>
+      {{ form.appointment_time }}
+    </div>
+
+    <div>
+      <label class="form-label">{{form.reason.label}}</label>
+      {{ form.reason }}
+    </div>
+
+    <button type="submit" class="btn btn-create-appointment">Book</button>
+  </form>
 </div>
 {% endblock %}
