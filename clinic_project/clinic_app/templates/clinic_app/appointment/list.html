@@ -1,0 +1,37 @@
+{% extends "clinic_app/base.html" %}
+{% block content %}
+
+<div>
+    <h1>Appointment List</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Doctor</th>
+                <th>Patient</th>
+                <th>Time</th>
+                <th>Date</th>
+                <th>Reason</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.doctor }}</td>
+                <td>{{ appointment.patient }}</td>
+                <td>{{ appointment.time }}</td>
+                <td>{{ appointment.date }}</td>
+                <td>{{ appointment.reason }}</td>
+                <td>{{ appointment.status }}</td>   
+                <td>
+                    <a href="{% url 'appointment_edit' appointment.id %}">Edit</a>
+                    <a href="{% url 'appointment_delete' appointment.id %}">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

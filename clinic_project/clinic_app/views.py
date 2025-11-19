@@ -59,3 +59,7 @@ def patient_create_appointment(request):
         'form': form
     }
     return render(request, 'clinic_app/patient/create_appointment.html', context)
+
+def appointment_list(request):
+    appointments = Appointment.objects.all()
+    return render(request, 'clinic_app/appointment/list.html', {'appointments': appointments})
