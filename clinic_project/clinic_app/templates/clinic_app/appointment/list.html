@@ -3,20 +3,21 @@
 
 <div>
     <h1>Appointment List</h1>
-    <table class="table">
-        <thead>
+    <table style="margin-top: 2rem; border: 0.1rem solid black;">
+        <thead class="">
             <tr>
-                <th>Doctor</th>
-                <th>Patient</th>
-                <th>Time</th>
-                <th>Date</th>
-                <th>Reason</th>
-                <th>Status</th>
+                <th style="width:16rem">Doctor</th>
+                <th style="width:16rem">Patient</th>
+                <th style="width:7rem">Time</th>
+                <th style="width:7rem">Date</th>
+                <th style="width:35rem">Reason</th>
+                <th style="width:10rem">Status</th>
+                <th style="width:10rem">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for appointment in appointments %}
-            <tr>
+            <tr class="table-1">
                 <td>{{ appointment.doctor }}</td>
                 <td>{{ appointment.patient }}</td>
                 <td>{{ appointment.time }}</td>
