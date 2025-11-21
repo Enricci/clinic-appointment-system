@@ -202,9 +202,13 @@ class Command(BaseCommand):
             appointment_date = timezone.now() + timedelta(days=random.randint(0, 30))
             appointment_time = time(hour=random.randint(9, 16), minute=random.choice([0, 15, 30, 45]))
             
+            patient = random.choice(patients)
+            
             appointment = Appointment.objects.create(
                 doctor=random.choice(doctors),
-                patient=random.choice(patients),
+                patient_name=patient.user.get_full_name(),
+                patient_email=patient.email,
+                patient_contact=patient.phone_number,
                 appointment_date=appointment_date,
                 appointment_time=appointment_time,
                 reason=random.choice(appointment_reasons),
@@ -212,7 +216,7 @@ class Command(BaseCommand):
             )
             appointments.append(appointment)
             self.stdout.write(self.style.SUCCESS(
-                f'  Created: Appointment #{i+1} - {appointment.patient} with Dr. {appointment.doctor.user.last_name}'
+                f'  Created: Appointment #{i+1} - {patient.user.get_full_name()} with Dr. {appointment.doctor.user.last_name}'
             ))
         
         # Create Prescriptions for completed appointments
@@ -254,7 +258,7 @@ class Command(BaseCommand):
                 instructions=prescription_data['instructions']
             )
             self.stdout.write(self.style.SUCCESS(
-                f'  Created: Prescription for {appointment.patient}'
+                f'  Created: Prescription for {appointment.patient_name}'
             ))
         
         # Summary
