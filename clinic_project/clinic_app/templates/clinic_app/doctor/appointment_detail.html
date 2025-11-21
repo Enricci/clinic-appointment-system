@@ -77,6 +77,41 @@
       </div>
     </div>
 
+    <!-- Medical Record Card (for completed appointments) -->
+    {% if appointment.status == "Completed" %}
+    <div class="detail-card full-width" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+      <div class="card-header" style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);">
+        <h2>Medical Record</h2>
+      </div>
+      <div class="card-content">
+        {% if appointment.medical_record %}
+        <div class="info-row">
+          <span class="info-label">Subjective Notes</span>
+          <span class="info-value">{{ appointment.medical_record.subjective_notes|default:"Not provided" }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Objective Findings</span>
+          <span class="info-value">{{ appointment.medical_record.objective_findings|default:"Not provided" }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Diagnosis</span>
+          <span class="info-value">{{ appointment.medical_record.diagnosis|default:"Not provided" }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Treatment Plan</span>
+          <span class="info-value">{{ appointment.medical_record.treatment_plan|default:"Not provided" }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Follow-up Instructions</span>
+          <span class="info-value">{{ appointment.medical_record.follow_up_instructions|default:"Not provided" }}</span>
+        </div>
+        {% else %}
+        <p class="empty-text" style="text-align: center; color: #6c757d;">No medical record available yet.</p>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
     <!-- Prescription Card -->
     {% if prescription %}
     <div class="detail-card full-width prescription-card">
@@ -129,6 +164,11 @@
       </a>
       {% endif %}
       {% elif appointment.status == "Completed" %}
+      {% if appointment.medical_record %}
+      <a href="{% url 'clinic_app:doctor_edit_medical_record' appointment.medical_record.id %}" class="btn btn-primary">
+        Edit Medical Record
+      </a>
+      {% endif %}
       {% if not prescription %}
       <a href="{% url 'clinic_app:doctor_add_prescription' appointment.id %}" class="btn btn-info">
         Add Prescription

@@ -29,6 +29,8 @@
         <ul class="navbar-menu">
           {% if user.is_authenticated %} {% if is_doctor %}
           <li><a href="{% url 'clinic_app:doctor_dashboard' %}">Dashboard</a></li>
+          <a href="{% url 'clinic_app:doctor_medical_records' %}" style="width:auto;">Medical
+            Records</a>
           <li>
             <a href="{% url 'clinic_app:doctor_logout' %}" class="btn btn-secondary">Logout</a>
           </li>
@@ -48,10 +50,12 @@
       <div class="mobile-menu" id="mobileMenu">
         {% if user.is_authenticated %} {% if is_doctor %}
         <a href="{% url 'clinic_app:doctor_dashboard' %}">Dashboard</a>
+        <a href="{% url 'clinic_app:doctor_medical_records' %}" class="btn btn-secondary" style="width:auto;">Medical
+          Records</a>
         <a href="{% url 'clinic_app:doctor_logout' %}">Logout</a>
         {% else %}
         <a href="{% url 'clinic_app:patient_create_appointment' %}">Create Appointment</a>
-        <a href="{% url 'clinic_app:logout' %}">Logout</a>
+        <a href="{% url 'clinic_app:doctor_login' %}">Doctor Login</a>
         {% endif %} {% else %}
         <a href="{% url 'clinic_app:patient_create_appointment' %}">Create Appointment</a>
         <a href="{% url 'clinic_app:doctor_login' %}">Doctor Login</a>

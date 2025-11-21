@@ -27,7 +27,7 @@
   </div>
 
   <div class="appointments-section">
-    <h2>Your Appointments</h2>
+    <h2>Active Appointments</h2>
 
     {% if appointments %}
     <div class="appointments-table-container">
@@ -84,7 +84,7 @@
     </div>
     {% else %}
     <div class="empty-state">
-      <p>No appointments found.</p>
+      <p>No active appointments found. Completed appointments are in Medical Records.</p>
     </div>
     {% endif %}
   </div>
