@@ -18,8 +18,8 @@ class PatientAdmin(admin.ModelAdmin):
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('patient', 'doctor', 'appointment_date', 'appointment_time', 'status')
-    search_fields = ('patient__user__first_name', 'patient__user__last_name', 'doctor__user__last_name')
+    list_display = ('patient_name', 'patient_email', 'patient_contact', 'doctor', 'appointment_date', 'appointment_time', 'status')
+    search_fields = ('patient_name', 'patient_email', 'doctor__user__last_name')
     list_filter = ('status', 'appointment_date', 'doctor__specialization')
     date_hierarchy = 'appointment_date'
     ordering = ('-appointment_date',)

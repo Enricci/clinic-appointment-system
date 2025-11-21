@@ -1,0 +1,38 @@
+{% extends "clinic_app/base.html" %}
+{% block content %}
+
+<div>
+    <h1>Appointment List</h1>
+    <table style="margin-top: 2rem; border: 0.1rem solid black;">
+        <thead>
+            <tr style="background-color: #f8f9fa;">
+                <th style="width:12rem; padding-bottom: 0.5rem;">Doctor</th>
+                <th style="width:12rem; padding-bottom: 0.5rem;">Patient</th>
+                <th style="width:7rem; padding-bottom: 0.5rem;">Time</th>
+                <th style="width:12rem; padding-bottom: 0.5rem;">Date</th>
+                <th style="width:23rem; padding-bottom: 0.5rem;">Reason</th>
+                <th style="width:5rem; padding-bottom: 0.5rem;">Status</th>
+                <th style="width:25rem; padding-bottom: 0.5rem;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td style="padding: 0.5rem;">{{ appointment.doctor }}</td>
+                <td style="padding: 0.5rem;">{{ appointment.patient_name }}</td>
+                <td style="padding: 0.5rem;">{{ appointment.appointment_time }}</td>
+                <td style="padding: 0.5rem;">{{ appointment.appointment_date }}</td>
+                <td style="padding: 0.5rem;">{{ appointment.reason }}</td>
+                <td style="padding: 0.5rem;">{{ appointment.status }}</td>   
+                <td style="gap: 0.5rem; align-items: center; text-align: center;">
+                    <a href="{% url 'clinic_app:appointment_edit' appointment.id %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'clinic_app:appointment_delete' appointment.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
