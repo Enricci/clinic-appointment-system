@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.contrib import messages
 from .models import Appointment, Patient
-from .forms import AppointmentForm
+from .forms import AppointmentForm, DoctorAppointmentForm
 
 # Create your views here.
 
@@ -49,6 +49,8 @@ def patient_create_appointment(request):
         form = AppointmentForm(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
+            appointment.appointment_date = None
+            appointment.appointment_time = None
             appointment.save()
             return redirect('clinic_app:home')
     else:
@@ -68,12 +70,12 @@ def appointment_edit(request, id):
     appointment = get_object_or_404(Appointment, id=id)
     
     if request.method == "POST":
-        form = AppointmentForm(request.POST, instance=appointment)
+        form = DoctorAppointmentForm(request.POST, instance=appointment)
         if form.is_valid():
             form.save()
             return redirect('clinic_app:appointment_list')
     else:
-        form = AppointmentForm(instance=appointment)
+        form = DoctorAppointmentForm(instance=appointment)
     
     context = {
         'title': 'Edit Appointment',

@@ -1,14 +1,64 @@
 {% extends "clinic_app/base.html" %}
 
 {% block content %}
+{% if form.errors %}
+<div class="alert alert-error" role="alert">
+    <strong>Error!</strong> Please fix the issues: 
+    <ul style="padding-left: 1.5rem;">
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+                <li><strong>{{ field|capfirst }}:</strong> {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
 <div class="container mt-4">
     <h2>Edit Appointment</h2>
 
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div>
+      <label class="form-label">Patient Name</label>
+      {{ form.patient_name }}
+    </div>
 
-        <button class="btn btn-primary">Save Changes</button>
+    <div>
+      <label class="form-label">Email</label>
+      {{ form.patient_email }}
+    </div>
+
+    <div>
+      <label class="form-label">Contact Number</label>
+      {{ form.patient_contact }}
+    </div>
+
+    <div>
+      <label class="form-label">{{form.doctor.label}}</label>
+      {{ form.doctor }}
+    </div>
+
+      <div>
+      <label class="form-label">{{form.appointment_date.label}}</label>
+      {{form.appointment_date}}
+    </div>
+
+    <div>
+      <label class="form-label">{{form.appointment_time.label}}</label>
+      {{form.appointment_time}}
+    </div>
+  
+    <div>
+      <label class="form-label">{{form.reason.label}}</label>
+      {{ form.reason }}
+    </div>
+
+    <div>
+      <label class="form-label">{{form.status.label}}</label>
+      {{ form.status }}
+    </div>
+
+        <button class="btn btn-primary" style="margin-top: 2rem;">Save Changes</button>
         <a href="{% url 'clinic_app:appointment_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>

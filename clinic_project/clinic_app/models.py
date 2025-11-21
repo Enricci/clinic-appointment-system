@@ -24,8 +24,8 @@ class Appointment(models.Model):
     patient_name = models.CharField(max_length=100, default="Unknown")
     patient_email = models.EmailField(max_length=254, blank=True, null=True)
     patient_contact = models.CharField(max_length=20)
-    appointment_date = models.DateTimeField()
-    appointment_time = models.TimeField()
+    appointment_date = models.DateTimeField(null=True, blank=True)
+    appointment_time = models.TimeField(null=True, blank=True)
     reason = models.TextField()
     status = models.CharField(
         max_length=20,

@@ -26,21 +26,15 @@
       <label class="form-label">{{form.doctor.label}}</label>
       {{ form.doctor }}
     </div>
-
-    <div>
-      <label class="form-label">{{form.appointment_date.label}}</label>
-      {{ form.appointment_date }}
-    </div>
-
-    <div>
-      <label class="form-label">{{form.appointment_time.label}}</label>
-      {{ form.appointment_time }}
-    </div>
-
+  
     <div>
       <label class="form-label">{{form.reason.label}}</label>
       {{ form.reason }}
     </div>
+
+      {{ form.appointment_date }}
+   
+      {{ form.appointment_time }}
 
     <button type="submit" class="btn btn-create-appointment">Book</button>
   </form>
