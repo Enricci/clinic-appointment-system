@@ -28,10 +28,10 @@ class AppointmentAdmin(admin.ModelAdmin):
 @admin.register(Prescription)
 class PrescriptionAdmin(admin.ModelAdmin):
     list_display = ('appointment', 'medication', 'get_patient', 'get_doctor')
-    search_fields = ('medication', 'appointment__patient__user__first_name', 'appointment__patient__user__last_name')
+    search_fields = ('medication', 'appointment__patient_name', 'appointment__patient_email')
     
     def get_patient(self, obj):
-        return obj.appointment.patient
+        return obj.appointment.patient_name
     get_patient.short_description = 'Patient'
     
     def get_doctor(self, obj):

@@ -46,4 +46,4 @@ class Prescription(models.Model):
     instructions = models.TextField()
     
     def __str__(self):
-        return f"Prescription for {self.appointment.patient}"
+        return f"Prescription for {self.appointment.patient_name}"
