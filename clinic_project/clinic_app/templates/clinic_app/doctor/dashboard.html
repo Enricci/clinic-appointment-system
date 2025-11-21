@@ -47,9 +47,9 @@
         <tbody>
           {% for appointment in appointments %}
           <tr>
-            <td>{{ appointment.patient.user.get_full_name }}</td>
-            <td>{{ appointment.patient.email|default:"N/A" }}</td>
-            <td>{{ appointment.patient.phone_number }}</td>
+            <td>{{ appointment.patient_name }}</td>
+            <td>{{ appointment.patient_email|default:"N/A" }}</td>
+            <td>{{ appointment.patient_contact }}</td>
             <td>{{ appointment.appointment_date|date:"M d, Y" }}</td>
             <td>{{ appointment.appointment_time|time:"g:i A" }}</td>
             <td>{{ appointment.reason|truncatewords:10 }}</td>
@@ -61,29 +61,20 @@
             <td>
               <div class="action-buttons">
                 {% if appointment.status == "Pending" %}
-                <form
-                  method="post"
-                  action="{% url 'clinic_app:doctor_approve_appointment' appointment.id %}"
-                  style="display: inline"
-                >
+                <form method="post" action="{% url 'clinic_app:doctor_approve_appointment' appointment.id %}"
+                  style="display: inline">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-small btn-success">Approve</button>
                 </form>
                 {% endif %} {% if appointment.status == "Approved" %}
-                <form
-                  method="post"
-                  action="{% url 'clinic_app:doctor_complete_appointment' appointment.id %}"
-                  style="display: inline"
-                >
+                <form method="post" action="{% url 'clinic_app:doctor_complete_appointment' appointment.id %}"
+                  style="display: inline">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-small btn-primary">Complete</button>
                 </form>
                 {% endif %}
-                <a
-                  href="{% url 'clinic_app:doctor_appointment_detail' appointment.id %}"
-                  class="btn btn-small btn-info"
-                  >View</a
-                >
+                <a href="{% url 'clinic_app:doctor_appointment_detail' appointment.id %}"
+                  class="btn btn-small btn-info">View</a>
               </div>
             </td>
           </tr>
