@@ -1,0 +1,81 @@
+{% extends "clinic_app/base.html" %}
+{% block title %}Edit Medical Record{% endblock %}
+
+{% block content %}
+<div class="prescription-form-container">
+  <div class="prescription-form-header">
+    <div class="breadcrumb">
+      <a href="{% url 'clinic_app:doctor_dashboard' %}" class="breadcrumb-link">Dashboard</a>
+      <span class="breadcrumb-separator">›</span>
+      <a href="{% url 'clinic_app:doctor_appointment_detail' appointment.id %}" class="breadcrumb-link">Appointment</a>
+      <span class="breadcrumb-separator">›</span>
+      <span class="breadcrumb-current">Edit Medical Record</span>
+    </div>
+    <div class="prescription-header-title">
+      <div>
+        <h1>Edit Medical Record</h1>
+        <p class="prescription-subtitle">Update medical record details for {{ appointment.patient_name }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="prescription-form-card">
+    <form method="post" class="prescription-form">
+      {% csrf_token %}
+
+      <div class="form-section">
+        <h2 class="section-title">Subjective Information</h2>
+        <div class="form-group enhanced">
+          <label for="subjective_notes" class="form-label">
+            <span class="label-text">Patient-reported Symptoms & History</span>
+          </label>
+          <textarea id="subjective_notes" name="subjective_notes" class="form-control enhanced"
+            rows="4">{{ record.subjective_notes }}</textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2 class="section-title">Objective Findings</h2>
+        <div class="form-group enhanced">
+          <label for="objective_findings" class="form-label">
+            <span class="label-text">Vitals, Physical Exam Findings</span>
+          </label>
+          <textarea id="objective_findings" name="objective_findings" class="form-control enhanced"
+            rows="4">{{ record.objective_findings }}</textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2 class="section-title">Diagnosis & Plan</h2>
+        <div class="form-group enhanced">
+          <label for="diagnosis" class="form-label">
+            <span class="label-text">Diagnosis</span>
+          </label>
+          <input type="text" id="diagnosis" name="diagnosis" class="form-control enhanced"
+            value="{{ record.diagnosis }}">
+        </div>
+        <div class="form-group enhanced">
+          <label for="treatment_plan" class="form-label">
+            <span class="label-text">Treatment Plan</span>
+          </label>
+          <textarea id="treatment_plan" name="treatment_plan" class="form-control enhanced"
+            rows="4">{{ record.treatment_plan }}</textarea>
+        </div>
+        <div class="form-group enhanced">
+          <label for="follow_up_instructions" class="form-label">
+            <span class="label-text">Follow-up Instructions</span>
+          </label>
+          <textarea id="follow_up_instructions" name="follow_up_instructions" class="form-control enhanced"
+            rows="3">{{ record.follow_up_instructions }}</textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-large">Update Medical Record</button>
+        <a href="{% url 'clinic_app:doctor_appointment_detail' appointment.id %}"
+          class="btn btn-secondary btn-large">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

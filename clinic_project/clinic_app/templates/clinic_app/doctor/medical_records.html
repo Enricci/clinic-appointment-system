@@ -1,0 +1,63 @@
+{% extends "clinic_app/base.html" %}
+{% block title %}Medical Records{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Medical Records</h1>
+    <p class="specialization">Dr. {{ doctor.user.get_full_name }} ({{ doctor.specialization }})</p>
+    <form method="get" style="margin-top:1.25rem; display:flex; gap:0.75rem; flex-wrap:wrap; justify-content:center;">
+      <input type="text" name="q" value="{{ query }}" placeholder="Search patient name..." class="form-control"
+        style="max-width:320px;">
+      <button type="submit" class="btn btn-primary" style="width:auto;">Search</button>
+      {% if query %}
+      <a href="{% url 'clinic_app:doctor_medical_records' %}" class="btn btn-secondary" style="width:auto;">Clear</a>
+      {% endif %}
+      <a href="{% url 'clinic_app:doctor_dashboard' %}" class="btn btn-ghost" style="width:auto;">Back</a>
+    </form>
+    {% if query %}
+    <p class="text-muted" style="margin-top:0.75rem;">Results for: "{{ query }}"</p>
+    {% endif %}
+  </div>
+
+  <div class="appointments-section">
+    <h2>Records List</h2>
+    {% if records %}
+    <div class="appointments-table-container">
+      <table class="appointments-table">
+        <thead>
+          <tr>
+            <th>Patient Name</th>
+            <th>Diagnosis</th>
+            <th>Date</th>
+            <th>Last Updated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in records %}
+          <tr>
+            <td>{{ record.appointment.patient_name }}</td>
+            <td>{{ record.diagnosis|default:"N/A" }}</td>
+            <td>{{ record.appointment.appointment_date|date:"M d, Y" }}</td>
+            <td>{{ record.updated_at|date:"M d, Y H:i" }}</td>
+            <td>
+              <div class="action-buttons">
+                <a href="{% url 'clinic_app:doctor_edit_medical_record' record.id %}"
+                  class="btn btn-small btn-primary">Edit</a>
+                <a href="{% url 'clinic_app:doctor_appointment_detail' record.appointment.id %}"
+                  class="btn btn-small btn-info">View Appointment</a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <p>No medical records found.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
