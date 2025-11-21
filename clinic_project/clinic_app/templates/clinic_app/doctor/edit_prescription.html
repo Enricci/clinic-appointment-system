@@ -1,0 +1,37 @@
+{% extends "clinic_app/base.html" %}
+{% block title %}Edit Prescription{% endblock %}
+
+{% block content %}
+<div class="appointment-detail-container">
+  <div class="detail-header">
+    <div class="header-content">
+      <h1>Edit Prescription</h1>
+    </div>
+  </div>
+
+  <div class="detail-card">
+    <div class="card-header">
+      <h2>Patient: {{ appointment.patient_name }}</h2>
+    </div>
+    <div class="card-content">
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="medication" class="form-label">Medication</label>
+          <input type="text" id="medication" name="medication" class="form-control" required
+            value="{{ prescription.medication }}">
+        </div>
+        <div class="form-group">
+          <label for="instructions" class="form-label">Instructions</label>
+          <textarea id="instructions" name="instructions" class="form-control" rows="5"
+            required>{{ prescription.instructions }}</textarea>
+        </div>
+        <div class="action-buttons-group">
+          <button type="submit" class="btn btn-primary">Update Prescription</button>
+          <a href="{% url 'clinic_app:doctor_appointment_detail' appointment.id %}" class="btn btn-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
