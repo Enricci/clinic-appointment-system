@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.utils import timezone
-from clinic_app.models import Doctor, Patient, Appointment, Prescription
+from clinic_app.models import Doctor, Patient, Appointment, Prescription, MedicalRecord
 from datetime import timedelta, date, time
 import random
 
@@ -219,9 +219,58 @@ class Command(BaseCommand):
                 f'  Created: Appointment #{i+1} - {patient.user.get_full_name()} with Dr. {appointment.doctor.user.last_name}'
             ))
         
+        # Create Medical Records for completed appointments
+        self.stdout.write('Creating medical records...')
+        diagnoses = [
+            'Migraine', 'Hypertension', 'Type 2 Diabetes', 'Seasonal Allergies',
+            'Gastroesophageal Reflux Disease', 'Acute Bronchitis', 'Eczema',
+            'Mechanical Low Back Pain', 'Tension Headache', 'Conjunctivitis'
+        ]
+        subjective_samples = [
+            'Patient reports intermittent headaches over past 3 weeks.',
+            'Complains of chest tightness during exertion.',
+            'Reports persistent rash with mild itching.',
+            'States vision has been blurry in evenings.',
+            'Notes increased thirst and frequent urination.'
+        ]
+        objective_samples = [
+            'BP 142/88, HR 78 regular, afebrile.',
+            'Skin exam: erythematous patches on forearms.',
+            'Visual acuity 20/40 corrected, pupils equal/reactive.',
+            'Respiratory exam clear bilaterally.',
+            'Lumbar spine: mild paraspinal tenderness.'
+        ]
+        plans = [
+            'Initiate NSAID as needed, hydration advice.',
+            'Begin topical corticosteroid, avoid irritants.',
+            'Start antihypertensive regimen and lifestyle changes.',
+            'Order fasting glucose panel, recommend diet modification.',
+            'Provide ergonomic guidance and core strengthening exercises.'
+        ]
+        followups = [
+            'Follow up in 4 weeks.',
+            'Return sooner if symptoms worsen.',
+            'Recheck blood pressure in 2 weeks.',
+            'Lab review appointment in 10 days.',
+            'Schedule ophthalmology referral if vision declines.'
+        ]
+
+        medical_records_created = 0
+        completed_appointments = [apt for apt in appointments if apt.status == 'Completed']
+        for apt in completed_appointments:
+            MedicalRecord.objects.create(
+                appointment=apt,
+                subjective_notes=random.choice(subjective_samples),
+                objective_findings=random.choice(objective_samples),
+                diagnosis=random.choice(diagnoses),
+                treatment_plan=random.choice(plans),
+                follow_up_instructions=random.choice(followups)
+            )
+            medical_records_created += 1
+        self.stdout.write(self.style.SUCCESS(f'  Medical Records created: {medical_records_created}'))
+
         # Create Prescriptions for completed appointments
         self.stdout.write('Creating prescriptions...')
-        completed_appointments = [apt for apt in appointments if apt.status == 'Completed']
         
         prescriptions_data = [
             {
@@ -269,6 +318,7 @@ class Command(BaseCommand):
         self.stdout.write(f'Patients created: {Patient.objects.count()}')
         self.stdout.write(f'Appointments created: {Appointment.objects.count()}')
         self.stdout.write(f'Prescriptions created: {Prescription.objects.count()}')
+        self.stdout.write(f'Medical Records created: {MedicalRecord.objects.count()}')
         self.stdout.write('\nDefault password for all users: password123')
         self.stdout.write(self.style.SUCCESS('='*50))
 

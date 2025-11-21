@@ -40,6 +40,19 @@ class Appointment(models.Model):
     def __str__(self):
         return f"Appointment with Dr. {self.doctor.user.last_name} for {self.patient_name} on {self.appointment_date}"
     
+class MedicalRecord(models.Model):
+    appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE, related_name="medical_record")
+    subjective_notes = models.TextField(help_text="Patient-reported symptoms, history", blank=True)
+    objective_findings = models.TextField(help_text="Vitals, physical exam findings", blank=True)
+    diagnosis = models.CharField(max_length=255, blank=True)
+    treatment_plan = models.TextField(help_text="Therapies, interventions decided", blank=True)
+    follow_up_instructions = models.TextField(help_text="Monitoring, next visit guidance", blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Medical Record for {self.appointment.patient_name} ({self.appointment.id})"
+
 class Prescription(models.Model):
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE)
     medication = models.TextField()
