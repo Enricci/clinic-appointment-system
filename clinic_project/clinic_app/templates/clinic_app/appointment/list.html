@@ -19,14 +19,14 @@
             {% for appointment in appointments %}
             <tr class="table-1">
                 <td>{{ appointment.doctor }}</td>
-                <td>{{ appointment.patient }}</td>
-                <td>{{ appointment.time }}</td>
-                <td>{{ appointment.date }}</td>
+                <td>{{ appointment.patient_name }}</td>
+                <td>{{ appointment.appointment_time }}</td>
+                <td>{{ appointment.appointment_date }}</td>
                 <td>{{ appointment.reason }}</td>
                 <td>{{ appointment.status }}</td>   
                 <td>
-                    <a href="{% url 'appointment_edit' appointment.id %}">Edit</a>
-                    <a href="{% url 'appointment_delete' appointment.id %}">Delete</a>
+                    <a href="{% url 'clinic_app:appointment_edit' appointment.id %}">Edit</a>
+                    <a href="{% url 'clinic_app:appointment_delete' appointment.id %}">Delete</a>
                 </td>
             </tr>
             {% empty %}

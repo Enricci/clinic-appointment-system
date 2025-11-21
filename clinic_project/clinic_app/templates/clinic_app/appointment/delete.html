@@ -1,0 +1,20 @@
+{% extends "clinic_app/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Delete Appointment</h2>
+    <p>Are you sure you want to delete this appointment?</p>
+    <ul>
+        <li>Doctor: {{ appointment.doctor }}</li>
+        <li>Patient: {{ appointment.patient_name }}</li>
+        <li>Date: {{ appointment.appointment_date }}</li>
+        <li>Time: {{ appointment.appointment_time }}</li>
+        <li>Reason: {{ appointment.reason }}</li>
+        <li>Status: {{ appointment.status }}</li>
+    </ul>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'clinic_app:appointment_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

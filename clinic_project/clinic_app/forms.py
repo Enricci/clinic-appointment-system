@@ -20,10 +20,13 @@ class AppointmentForm(forms.ModelForm):
     
     class Meta:
         model = Appointment
-        fields = ["doctor", "appointment_date", "appointment_time", "reason"]
+        fields = ["doctor","patient_name", "patient_email", "patient_contact", "appointment_date", "appointment_time", "reason"]
         
         widgets = {
             "doctor": forms.Select(attrs={"class": "form-control"}),
+            "patient_name": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter patient full name"}),
+            "patient_email": forms.EmailInput(attrs={"class": "form-control", "placeholder": "Enter patient email"}),
+            "patient_contact": forms.TextInput(attrs={"class": "form-control", "placeholder": "Enter contact number"}),
             "appointment_date": forms.DateInput(attrs={"type": "date", "class": "form-control"}),
             "appointment_time": forms.TimeInput(attrs={"type": "time", "class": "form-control"}),
             "reason": forms.Textarea(attrs={"rows": 3, "placeholder": "Reason for appointment", "class": "form-control"}) 
@@ -32,6 +35,9 @@ class AppointmentForm(forms.ModelForm):
         labels = {
             "class": "form-label",
             "doctor": "Doctor",
+            "patient_name": "Patient Name",
+            "patient_email": "Patient Email",
+            "patient_contact": "Patient Phone",
             "appointment_date": "Appointment Date",
             "appointment_time": "Appointment Time",
             "reason": "Reason for Appointment"
