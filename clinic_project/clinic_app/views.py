@@ -7,9 +7,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Appointment, Patient
+from .models import Appointment, Patient, Doctor, Prescription
 from .forms import AppointmentForm, DoctorAppointmentForm
-from .models import Appointment, Patient, Doctor
+from .models import Appointment, Patient
 from .forms import AppointmentForm
 
 # Create your views here.
@@ -173,9 +173,17 @@ def doctor_appointment_detail(request, appointment_id):
     
     appointment = get_object_or_404(Appointment, id=appointment_id, doctor=doctor)
     
+    # Get prescription if exists
+    try:
+        prescription = Prescription.objects.get(appointment=appointment)
+    except Prescription.DoesNotExist:
+        prescription = None
+    
     context = {
         'title': 'Appointment Details',
         'appointment': appointment,
+        'prescription': prescription,
+        'doctor': doctor,
     }
     return render(request, 'clinic_app/doctor/appointment_detail.html', context)
 
@@ -216,6 +224,102 @@ def doctor_complete_appointment(request, appointment_id):
         messages.success(request, 'Appointment has been marked as completed.')
     
     return redirect('clinic_app:doctor_dashboard')
+
+
+@login_required(login_url='clinic_app:doctor_login')
+def doctor_cancel_appointment(request, appointment_id):
+    """Cancel an appointment"""
+    try:
+        doctor = Doctor.objects.get(user=request.user)
+    except Doctor.DoesNotExist:
+        messages.error(request, 'You do not have permission to perform this action.')
+        return redirect('clinic_app:home')
+    
+    appointment = get_object_or_404(Appointment, id=appointment_id, doctor=doctor)
+    
+    if request.method == 'POST':
+        appointment.delete()
+        messages.success(request, 'Appointment has been cancelled.')
+        return redirect('clinic_app:doctor_dashboard')
+    
+    return redirect('clinic_app:doctor_appointment_detail', appointment_id=appointment_id)
+
+
+@login_required(login_url='clinic_app:doctor_login')
+def doctor_add_prescription(request, appointment_id):
+    """Add prescription to an appointment"""
+    try:
+        doctor = Doctor.objects.get(user=request.user)
+    except Doctor.DoesNotExist:
+        messages.error(request, 'You do not have permission to perform this action.')
+        return redirect('clinic_app:home')
+    
+    appointment = get_object_or_404(Appointment, id=appointment_id, doctor=doctor)
+    
+    # Check if prescription already exists
+    if hasattr(appointment, 'prescription'):
+        messages.warning(request, 'A prescription already exists for this appointment.')
+        return redirect('clinic_app:doctor_appointment_detail', appointment_id=appointment_id)
+    
+    if request.method == 'POST':
+        medication = request.POST.get('medication')
+        instructions = request.POST.get('instructions')
+        
+        if medication and instructions:
+            Prescription.objects.create(
+                appointment=appointment,
+                medication=medication,
+                instructions=instructions
+            )
+            messages.success(request, 'Prescription has been added successfully.')
+            return redirect('clinic_app:doctor_appointment_detail', appointment_id=appointment_id)
+        else:
+            messages.error(request, 'Please fill in all fields.')
+    
+    context = {
+        'title': 'Add Prescription',
+        'appointment': appointment,
+        'doctor': doctor,
+    }
+    return render(request, 'clinic_app/doctor/add_prescription.html', context)
+
+
+@login_required(login_url='clinic_app:doctor_login')
+def doctor_edit_prescription(request, prescription_id):
+    """Edit an existing prescription"""
+    try:
+        doctor = Doctor.objects.get(user=request.user)
+    except Doctor.DoesNotExist:
+        messages.error(request, 'You do not have permission to perform this action.')
+        return redirect('clinic_app:home')
+    
+    prescription = get_object_or_404(Prescription, id=prescription_id)
+    
+    # Verify the prescription belongs to this doctor's appointment
+    if prescription.appointment.doctor != doctor:
+        messages.error(request, 'You do not have permission to edit this prescription.')
+        return redirect('clinic_app:doctor_dashboard')
+    
+    if request.method == 'POST':
+        medication = request.POST.get('medication')
+        instructions = request.POST.get('instructions')
+        
+        if medication and instructions:
+            prescription.medication = medication
+            prescription.instructions = instructions
+            prescription.save()
+            messages.success(request, 'Prescription has been updated successfully.')
+            return redirect('clinic_app:doctor_appointment_detail', appointment_id=prescription.appointment.id)
+        else:
+            messages.error(request, 'Please fill in all fields.')
+    
+    context = {
+        'title': 'Edit Prescription',
+        'prescription': prescription,
+        'appointment': prescription.appointment,
+        'doctor': doctor,
+    }
+    return render(request, 'clinic_app/doctor/edit_prescription.html', context)
 
 
 @login_required
