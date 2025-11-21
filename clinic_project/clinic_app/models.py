@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 # Create your models here.
 
 class Doctor(models.Model):
@@ -52,6 +53,11 @@ class MedicalRecord(models.Model):
 
     def __str__(self):
         return f"Medical Record for {self.appointment.patient_name} ({self.appointment.id})"
+
+    def save(self, *args, **kwargs):
+        if self.appointment.status != "Completed":
+            raise ValidationError("Medical records may only be created for completed appointments.")
+        super().save(*args, **kwargs)
 
 class Prescription(models.Model):
     appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE)
