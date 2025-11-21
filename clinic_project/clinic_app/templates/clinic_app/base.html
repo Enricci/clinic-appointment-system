@@ -1,105 +1,98 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}{{ title }} - Clinic Appointment System{% endblock %}</title>
 
-    <!-- Vanilla CSS -->
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}{{ title }} - Clinic Appointment System{% endblock %}</title>
 
-    {% block extra_css %}{% endblock %}
-  </head>
-  <body>
-    <div class="page-wrapper">
-      <!-- Navbar -->
-      <nav class="navbar">
-        <div class="navbar-container">
-          <a href="{% url 'clinic_app:home' %}" class="navbar-brand"> Clinic Appointment System </a>
+  <!-- Vanilla CSS -->
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css" />
 
-          <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
-          </button>
+  {% block extra_css %}{% endblock %}
+</head>
 
-          <ul class="navbar-menu">
-            {% if user.is_authenticated %} {% if is_doctor %}
-            <li><a href="{% url 'clinic_app:doctor_dashboard' %}">Dashboard</a></li>
-            <li>
-              <a href="{% url 'clinic_app:doctor_logout' %}" class="btn btn-secondary">Logout</a>
-            </li>
-            {% else %}
-            <li>
-              <a href="{% url 'clinic_app:patient_create_appointment' %}">Create Appointment</a>
-            </li>
-            <li><a href="{% url 'clinic_app:logout' %}" class="btn btn-secondary">Logout</a></li>
-            {% endif %} {% else %}
-            <li>
-              <a href="{% url 'clinic_app:patient_create_appointment' %}">Create Appointment</a>
-            </li>
-            {% endif %}
-          </ul>
-        </div>
+<body>
+  <div class="page-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a class="navbar-brand"> Clinic Appointment System </a>
 
-        <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+          </svg>
+        </button>
+
+        <ul class="navbar-menu">
           {% if user.is_authenticated %} {% if is_doctor %}
-          <a href="{% url 'clinic_app:doctor_dashboard' %}">Dashboard</a>
-          <a href="{% url 'clinic_app:doctor_logout' %}">Logout</a>
+          <li><a href="{% url 'clinic_app:doctor_dashboard' %}">Dashboard</a></li>
+          <li>
+            <a href="{% url 'clinic_app:doctor_logout' %}" class="btn btn-secondary">Logout</a>
+          </li>
           {% else %}
-          <a href="{% url 'clinic_app:patient_create_appointment' %}">Create Appointment</a>
-          <a href="{% url 'clinic_app:logout' %}">Logout</a>
+          <li>
+            <a href="{% url 'clinic_app:patient_create_appointment' %}">Create Appointment</a>
+          </li>
+          <li><a href="{% url 'clinic_app:logout' %}" class="btn btn-secondary">Logout</a></li>
           {% endif %} {% else %}
-          <a href="{% url 'clinic_app:patient_create_appointment' %}">Create Appointment</a>
-          <a href="{% url 'clinic_app:doctor_login' %}">Doctor Login</a>
+          <li>
+            <a href="{% url 'clinic_app:patient_create_appointment' %}">Create Appointment</a>
+          </li>
           {% endif %}
+        </ul>
+      </div>
+
+      <div class="mobile-menu" id="mobileMenu">
+        {% if user.is_authenticated %} {% if is_doctor %}
+        <a href="{% url 'clinic_app:doctor_dashboard' %}">Dashboard</a>
+        <a href="{% url 'clinic_app:doctor_logout' %}">Logout</a>
+        {% else %}
+        <a href="{% url 'clinic_app:patient_create_appointment' %}">Create Appointment</a>
+        <a href="{% url 'clinic_app:logout' %}">Logout</a>
+        {% endif %} {% else %}
+        <a href="{% url 'clinic_app:patient_create_appointment' %}">Create Appointment</a>
+        <a href="{% url 'clinic_app:doctor_login' %}">Doctor Login</a>
+        {% endif %}
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <div class="container">
+        {% if messages %} {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          <span>{{ message }}</span>
         </div>
-      </nav>
+        {% endfor %} {% endif %} {% if page_title %}
+        <h1 class="page-title">{{ page_title }}</h1>
+        {% endif %} {% block content %}{% endblock %}
+      </div>
+    </main>
 
-      <!-- Main Content -->
-      <main>
-        <div class="container">
-          {% if messages %} {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">
-            <span>{{ message }}</span>
-          </div>
-          {% endfor %} {% endif %} {% if page_title %}
-          <h1 class="page-title">{{ page_title }}</h1>
-          {% endif %} {% block content %}{% endblock %}
-        </div>
-      </main>
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; {% now "Y" %} Clinic Appointment System. All rights reserved.</p>
+    </footer>
+  </div>
 
-      <!-- Footer -->
-      <footer class="footer">
-        <p>&copy; {% now "Y" %} Clinic Appointment System. All rights reserved.</p>
-      </footer>
-    </div>
+  <script>
+    // Mobile menu toggle
+    document.addEventListener('DOMContentLoaded', function () {
+      const mobileMenuToggle = document.getElementById('mobileMenuToggle')
+      const mobileMenu = document.getElementById('mobileMenu')
 
-    <script>
-      // Mobile menu toggle
-      document.addEventListener('DOMContentLoaded', function () {
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle')
-        const mobileMenu = document.getElementById('mobileMenu')
+      if (mobileMenuToggle && mobileMenu) {
+        mobileMenuToggle.addEventListener('click', function () {
+          mobileMenu.classList.toggle('active')
+        })
+      }
+    })
+  </script>
 
-        if (mobileMenuToggle && mobileMenu) {
-          mobileMenuToggle.addEventListener('click', function () {
-            mobileMenu.classList.toggle('active')
-          })
-        }
-      })
-    </script>
+  {% block extra_js %}{% endblock %}
+</body>
 
-    {% block extra_js %}{% endblock %}
-  </body>
 </html>
