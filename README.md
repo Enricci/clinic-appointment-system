@@ -2,7 +2,7 @@
 
 A comprehensive web-based clinic appointment management system built with Django. This application streamlines the process of booking, managing, and tracking medical appointments for both patients and healthcare providers.
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
@@ -15,11 +15,11 @@ A comprehensive web-based clinic appointment management system built with Django
 - [Database Schema](#database-schema)
 - [API Endpoints](#api-endpoints)
 
-## 🎯 Overview
+## Overview
 
 The Clinic Appointment System is designed to digitize and automate the appointment booking process for medical clinics. It provides a user-friendly interface for patients to book appointments, view their appointment history, and manage their profiles, while giving clinic staff and doctors powerful tools to manage schedules, patient records, and appointments.
 
-## ✨ Features
+## Features
 
 ### Patient Features
 
