@@ -300,4 +300,17 @@ The system uses the following database structure to manage clinic operations:
 - `GET /profile/` - View user profile
 - `PUT /profile/edit/` - Update profile
 
+## Screenshots
+
+![Landing Page](images/landing.png)
+![Book Appointment](images/book-appointment.png)
+![Doctor Login](images/doctor-login.png)
+![Doctor Dashboard](images/doctor-dashboard.png)
+![Appointments](images/appointments.png)
+![Appointment Details](images/appointment-details.png)
+![Medical Records](images/medical-records.png)
+![Medical Record View](images/view-medical-record.png)
+![Medical Record View 2](images/view-medical-record-2.png)
+![404](images/404.png)
+
 ---
