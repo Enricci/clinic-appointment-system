@@ -48,6 +48,8 @@ class AppointmentForm(forms.ModelForm):
 class DoctorAppointmentForm(forms.ModelForm):
     def clean_appointment_date(self):
         appointment_date = self.cleaned_data.get('appointment_date')
+        if appointment_date is None:
+            raise forms.ValidationError("Appointment date is required.")
         if isinstance(appointment_date, datetime):
             appointment_date = appointment_date.date()
         today = timezone.localdate()
@@ -59,6 +61,11 @@ class DoctorAppointmentForm(forms.ModelForm):
         date = self.cleaned_data.get('appointment_date')
         time = self.cleaned_data.get('appointment_time')
         
+        if time is None:
+            raise forms.ValidationError("Appointment time is required.")
+        if date is None:
+            return time
+        
         if isinstance(date, datetime):
             date = date.date()
         
@@ -68,7 +75,7 @@ class DoctorAppointmentForm(forms.ModelForm):
                 raise forms.ValidationError("The appointment time cannot be in the past.")
         return time
     
-    def clean_status9(self):
+    def clean_status(self):
         status = self.cleaned_data.get('status')
         date = self.cleaned_data.get('appointment_date')
         time = self.cleaned_data.get('appointment_time')
@@ -99,7 +106,6 @@ class DoctorAppointmentForm(forms.ModelForm):
         }
         
         labels = {
-            "class": "form-label",
             "doctor": "Doctor",
             "patient_name": "Patient Name",
             "patient_email": "Patient Email",
@@ -110,3 +116,7 @@ class DoctorAppointmentForm(forms.ModelForm):
             "reason": "Reason for Appointment"
         }
     
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['appointment_date'].required = True
+        self.fields['appointment_time'].required = True
