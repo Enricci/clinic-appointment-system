@@ -1,7 +1,9 @@
 from datetime import datetime
 from django import forms
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 from .models import Appointment
+from django.db.models import DateTimeField
 
 class AppointmentForm(forms.ModelForm):
     # Additional patient information fields
@@ -89,6 +91,39 @@ class DoctorAppointmentForm(forms.ModelForm):
             if not date or not time:
                 raise forms.ValidationError("Approved appointments must have a date and time.")
         return status
+    
+    def clean(self):
+        cleaned = super().clean()
+        appointment_date = cleaned.get('appointment_date')
+        appointment_time = cleaned.get('appointment_time')
+        doctor = cleaned.get('doctor') or getattr(self.instance, 'doctor', None)
+
+        if not appointment_date or not appointment_time or not doctor:
+            return cleaned
+
+        # normalize to date for comparison
+        if isinstance(appointment_date, datetime):
+            appointment_date_key = appointment_date.date()
+        else:
+            appointment_date_key = appointment_date
+
+        # choose lookup depending on model field type
+        field = Appointment._meta.get_field('appointment_date')
+        if isinstance(field, DateTimeField):
+            lookup = 'appointment_date__date'
+        else:
+            lookup = 'appointment_date'
+
+        qs = Appointment.objects.filter(
+            doctor=doctor,
+            **{lookup: appointment_date_key},
+            appointment_time=appointment_time
+        )
+        if self.instance and self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise ValidationError("This doctor already has an appointment at that date and time.")
+        return cleaned
 
     class Meta:
         model = Appointment
