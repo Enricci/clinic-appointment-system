@@ -23,11 +23,7 @@ The Clinic Appointment System is designed to digitize and automate the appointme
 
 ### Patient Features
 
-- **User Registration & Authentication**: Secure signup and login system
 - **Appointment Booking**: Browse available time slots and book appointments
-- **Appointment Management**: View, reschedule, or cancel appointments
-- **Profile Management**: Update personal information and contact details
-- **Appointment History**: Track past and upcoming appointments
 - **Real-time Availability**: Check doctor availability in real-time
 
 ### Admin/Staff Features
