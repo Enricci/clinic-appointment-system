@@ -268,59 +268,9 @@ clinic-appointment-system/
 
 ### Core Models
 
-**User (Extended)**
+The system uses the following database structure to manage clinic operations:
 
-- id (Primary Key)
-- username
-- email
-- password (hashed)
-- first_name
-- last_name
-- is_staff
-- is_active
-
-**Doctor**
-
-- id (Primary Key)
-- user (Foreign Key to User)
-- specialization (Foreign Key to Specialization)
-- phone_number
-- license_number
-- experience_years
-- consultation_fee
-- available_days
-- start_time
-- end_time
-
-**Patient**
-
-- id (Primary Key)
-- user (Foreign Key to User)
-- date_of_birth
-- phone_number
-- address
-- emergency_contact
-- blood_group
-- medical_history
-
-**Appointment**
-
-- id (Primary Key)
-- patient (Foreign Key to Patient)
-- doctor (Foreign Key to Doctor)
-- appointment_date
-- appointment_time
-- status (pending, confirmed, cancelled, completed)
-- reason
-- notes
-- created_at
-- updated_at
-
-**Specialization**
-
-- id (Primary Key)
-- name
-- description
+![Entity Relationship Diagram](images/clinicERD.png)
 
 ## API Endpoints
 
