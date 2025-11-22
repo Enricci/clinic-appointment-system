@@ -221,6 +221,11 @@ def doctor_approve_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id, doctor=doctor)
     
     if request.method == 'POST':
+        # Check if appointment date and time are set
+        if not appointment.appointment_date or not appointment.appointment_time:
+            messages.error(request, 'Cannot approve appointment without a scheduled date and time. Please edit the appointment first.')
+            return redirect('clinic_app:doctor_appointment_detail', appointment_id=appointment_id)
+        
         appointment.status = 'Approved'
         appointment.save()
         messages.success(request, 'Appointment has been approved.')
