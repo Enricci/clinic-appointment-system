@@ -14,7 +14,7 @@
     <form method="POST">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Delete</button>
-        <a href="{% url 'clinic_app:appointment_list' %}" class="btn btn-secondary">Cancel</a>
+        <a href="{% url 'clinic_app:doctor_appointment_detail' appointment.id %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 {% endblock %}

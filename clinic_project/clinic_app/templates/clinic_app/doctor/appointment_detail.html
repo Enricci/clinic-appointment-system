@@ -53,8 +53,8 @@
         </div>
         <div class="info-row">
           <span class="info-label">Doctor</span>
-          <span class="info-value">Dr. {{ appointment.doctor.user.get_full_name }} ({{ appointment.doctor.specialization
-            }})</span>
+          <span class="info-value">Dr. {{ appointment.doctor.user.get_full_name }} {{ appointment.doctor.specialization
+            }}</span>
         </div>
         <div class="info-row">
           <span class="info-label">Status</span>
@@ -132,8 +132,8 @@
     {% endif %}
   </div>
 
-  <!-- Action Buttons -->
-  <div class="action-section">
+   <!-- Action Buttons -->
+  <div class="action-section" style="flex-direction: column;">
     <h3>Actions</h3>
     <div class="action-buttons-group">
       {% if appointment.status == "Pending" %}
@@ -180,6 +180,14 @@
       {% endif %}
       {% endif %}
     </div>
+    <div class="edit-delete-buttons">
+        <!-- Edit and Delete Buttons -->
+        <a href="{% url 'clinic_app:appointment_edit' appointment.id %}" class="btn btn-primary">
+          Edit
+        </a>
+        <a href="{% url 'clinic_app:appointment_delete' appointment.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this appointment?');">
+          Delete
+        </a>
+      </div>
   </div>
-</div>
 {% endblock %}

@@ -9,7 +9,7 @@ class Doctor(models.Model):
     phone_number = models.CharField(max_length=15)
     
     def __str__(self):
-        return f"Dr. {self.user.last_name}"
+        return f"Dr. {self.user.last_name} - {self.specialization}"
 
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

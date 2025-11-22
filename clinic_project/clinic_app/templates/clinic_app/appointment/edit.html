@@ -59,7 +59,7 @@
     </div>
 
         <button class="btn btn-primary" style="margin-top: 2rem;">Save Changes</button>
-        <a href="{% url 'clinic_app:appointment_list' %}" class="btn btn-secondary">Cancel</a>
+        <a href="{% url 'clinic_app:doctor_appointment_detail' object.id %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 {% endblock %}

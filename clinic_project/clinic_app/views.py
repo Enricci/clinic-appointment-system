@@ -12,6 +12,7 @@ from .forms import AppointmentForm, DoctorAppointmentForm
 from .models import Appointment, Patient
 from .forms import AppointmentForm
 from clinic_app.models import MedicalRecord
+from django.urls import reverse
 
 # Create your views here.
 
@@ -73,28 +74,43 @@ def appointment_list(request):
     appointments = Appointment.objects.all()
     return render(request, 'clinic_app/appointment/list.html', {'appointments': appointments})
 
+# ...existing code...
 def appointment_edit(request, id):
-    appointment = get_object_or_404(Appointment, id=id)
+    try:
+        doctor = Doctor.objects.get(user=request.user)
+    except Doctor.DoesNotExist:
+        messages.error(request, 'You do not have permission to perform this action.')
+        return redirect('clinic_app:home')
+    appointment = get_object_or_404(Appointment, id=id, doctor=doctor)
     
     if request.method == "POST":
         form = DoctorAppointmentForm(request.POST, instance=appointment)
         if form.is_valid():
             form.save()
-            return redirect('clinic_app:appointment_list')
+            # use the URL kwarg name expected by the doctor_appointment_detail route
+            return redirect('clinic_app:doctor_appointment_detail', appointment_id=appointment.id)
     else:
         form = DoctorAppointmentForm(instance=appointment)
     
     context = {
         'title': 'Edit Appointment',
-        'form': form
+        'form': form,
+        'appointment': appointment,   # <-- add this so template can use appointment.id
+        'object': appointment,        # <-- optional, keeps your current template's object variable
     }
     return render(request, 'clinic_app/appointment/edit.html', context)
 
 def appointment_delete(request, id):
-    appointment = get_object_or_404(Appointment, id=id)
+    try:
+        doctor = Doctor.objects.get(user=request.user)
+    except Doctor.DoesNotExist:
+        messages.error(request, 'You do not have permission to perform this action.')
+        return redirect('clinic_app:home')
+    appointment = get_object_or_404(Appointment, id=id, doctor=doctor)
     if request.method == "POST":
         appointment.delete()
-        return redirect('clinic_app:appointment_list')
+        messages.success(request, 'Appointment has been deleted.')
+        return redirect('clinic_app:doctor_dashboard')
     return render(request, 'clinic_app/appointment/delete.html', {'appointment': appointment})
 
 

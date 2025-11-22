@@ -1144,6 +1144,8 @@ main {
 }
 
 .action-buttons-group {
+  gap: 0.5rem;
+  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -1835,4 +1837,10 @@ main {
 
 .prescription-card .info-row:last-child {
   margin-bottom: 0.5rem;
+}
+
+.edit-delete-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
