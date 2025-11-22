@@ -134,22 +134,20 @@ clinic_project/
 
 ### For Patients
 
-1. **Register**: Create a new account at `/register`
-2. **Login**: Access your account at `/login`
-3. **Book Appointment**: Navigate to "Book Appointment" and select:
+1. **Book Appointment**: Navigate to "Book Appointment" and select:
    - Doctor
    - Date
    - Available time slot
-4. **Manage Appointments**: View and manage appointments from your dashboard
-5. **Update Profile**: Keep your contact information current
 
-### For Admins
+### For Doctors
+
+1. **Login**: Access your account at `/login`
+2. **Manage Appointments**: View all appointments and their statuses
+3. **Manage Medical Records**: View all medical records and their details
+
+### For Django Admins
 
 1. **Access Admin Panel**: Navigate to `/admin`
-2. **Manage Doctors**: Add or edit doctor profiles and specializations
-3. **Manage Appointments**: View all appointments and their statuses
-4. **Manage Patients**: Access patient records and information
-5. **Configure Settings**: Set clinic hours, holidays, and system settings
 
 ## Project Structure
 
