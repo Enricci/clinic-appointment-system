@@ -13,6 +13,9 @@ from .models import Appointment, Patient
 from .forms import AppointmentForm
 from clinic_app.models import MedicalRecord
 from django.urls import reverse
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 
@@ -421,3 +424,20 @@ def doctor_edit_medical_record(request, record_id):
         'doctor': doctor,
     }
     return render(request, 'clinic_app/doctor/edit_medical_record.html', context)
+
+
+def handler403(request, exception=None):
+    """Custom 403 Forbidden handler"""
+    logger.error(f"403 Forbidden: {request.path} - User: {request.user} - Exception: {exception}")
+    return render(request, 'clinic_app/errors/403.html', status=403)
+
+def handler404(request, exception=None):
+    """Custom 404 Not Found handler"""
+    logger.warning(f"404 Not Found: {request.path} - User: {request.user}")
+    return render(request, 'clinic_app/errors/404.html', status=404)
+
+def handler500(request):
+    """Custom 500 Internal Server Error handler"""
+    import traceback
+    logger.critical(f"500 Internal Server Error: {request.path} - User: {request.user}\n{traceback.format_exc()}")
+    return render(request, 'clinic_app/errors/500.html', status=500)

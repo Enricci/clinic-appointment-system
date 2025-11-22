@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>500 - Server Error</title>
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <main>
+      <div class="error-container">
+        <div class="error-card">
+          <div class="error-icon server-error">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <line x1="12" y1="22" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </div>
+          <h1 class="error-code">500</h1>
+          <h2 class="error-title">Internal Server Error</h2>
+          <p class="error-message">Something went wrong on our end. We're working to fix it.</p>
+          <div class="error-actions">
+            <a href="{% url 'clinic_app:home' %}" class="btn btn-primary">Go Home</a>
+            <a href="javascript:location.reload()" class="btn btn-secondary">Try Again</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

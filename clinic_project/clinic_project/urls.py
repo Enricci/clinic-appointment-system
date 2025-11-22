@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
+from clinic_app import views as clinic_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,3 +25,8 @@ urlpatterns = [
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('', include('clinic_app.urls')),
 ]
+
+# Custom error handlers
+handler403 = 'clinic_app.views.handler403'
+handler404 = 'clinic_app.views.handler404'
+handler500 = 'clinic_app.views.handler500'

@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>403 - Access Forbidden</title>
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <main>
+      <div class="error-container">
+        <div class="error-card">
+          <div class="error-icon forbidden">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+              <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </div>
+          <h1 class="error-code">403</h1>
+          <h2 class="error-title">Access Forbidden</h2>
+          <p class="error-message">You don't have permission to access this resource.</p>
+          <div class="error-actions">
+            <a href="{% url 'clinic_app:home' %}" class="btn btn-primary">Go Home</a>
+            <a href="javascript:history.back()" class="btn btn-secondary">Go Back</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

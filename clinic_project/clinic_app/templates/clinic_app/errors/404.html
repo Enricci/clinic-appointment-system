@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found</title>
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <main>
+      <div class="error-container">
+        <div class="error-card">
+          <div class="error-icon not-found">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+              <path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line x1="9" y1="9" x2="9.01" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              <line x1="15" y1="9" x2="15.01" y2="9" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </div>
+          <h1 class="error-code">404</h1>
+          <h2 class="error-title">Page Not Found</h2>
+          <p class="error-message">The page you're looking for doesn't exist or has been moved.</p>
+          <div class="error-actions">
+            <a href="{% url 'clinic_app:home' %}" class="btn btn-primary">Go Home</a>
+            <a href="javascript:history.back()" class="btn btn-secondary">Go Back</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>
